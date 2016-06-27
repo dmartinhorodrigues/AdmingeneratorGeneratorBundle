@@ -18,69 +18,74 @@ class RoutingLoader extends FileLoader
         'list' => array(
                     'pattern'      => '/',
                     'defaults'     => array(),
+                    'methods'      => array(),
                     'requirements' => array(),
                 ),
         'excel'=> array(
                     'pattern'      => '/excel',
                     'defaults'     => array(),
+                    'methods'      => array(),
                     'requirements' => array(),
                     'controller'   => 'excel',
                 ),
         'edit' => array(
                     'pattern'      => '/{pk}/edit',
                     'defaults'     => array(),
+                    'methods'      => array(),
                     'requirements' => array(),
                 ),
         'update' => array(
                     'pattern'      => '/{pk}/update',
                     'defaults'     => array(),
-                    'requirements' => array(
-                        '_method' => 'POST'
-                    ),
+                    'methods'      => array('POST'),
+                    'requirements' => array(),
                     'controller'   => 'edit',
                 ),
         'show' => array(
                     'pattern'      => '/{pk}/show',
                     'defaults'     => array(),
+                    'methods'      => array(),
                     'requirements' => array(),
                 ),
         'object' => array(
                     'pattern'      => '/{pk}/{action}',
                     'defaults'     => array(),
+                    'methods'      => array(),
                     'requirements' => array(),
                     'controller'   => 'actions',
                 ),
         'batch' => array(
                     'pattern'      => '/batch',
                     'defaults'     => array(),
-                    'requirements' => array(
-                        '_method' => 'POST'
-                    ),
+                    'methods'      => array('POST'),
+                    'requirements' => array(),
                     'controller'   => 'actions',
                 ),
         'new' => array(
                     'pattern'      => '/new',
                     'defaults'     => array(),
+                    'methods'      => array(),
                     'requirements' => array(),
                     'methods'      => array(),
                 ),
         'create' => array(
                     'pattern'      => '/create',
                     'defaults'     => array(),
-                    'requirements' => array(
-                        '_method' => 'POST'
-                    ),
+                    'methods'      => array('POST'),
+                    'requirements' => array(),
                     'controller'   => 'new',
                 ),
         'filters' => array(
                     'pattern'      => '/filter',
                     'defaults'     => array(),
+                    'methods'      => array(),
                     'requirements' => array(),
                     'controller'   => 'list',
                 ),
         'scopes' => array(
                     'pattern'      => '/scope/{group}/{scope}',
                     'defaults'     => array(),
+                    'methods'      => array(),
                     'requirements' => array(),
                     'controller'   => 'list',
                 ),
@@ -139,7 +144,7 @@ class RoutingLoader extends FileLoader
                             . ucfirst($controller) . ':' . $action;
                 }
 
-                $route = new Route($datas['pattern'], $datas['defaults'], $datas['requirements']);
+                $route = new Route($datas['pattern'], $datas['defaults'], $datas['requirements'], array(), '', array(), $datas['methods']);
                 $collection->add($route_name, $route);
                 $collection->addResource(new FileResource($controllerName));
             }
