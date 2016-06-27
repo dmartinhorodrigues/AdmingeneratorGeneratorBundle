@@ -206,7 +206,12 @@ class DoctrineODMFieldGuesser extends ContainerAware
                         ->trans('boolean.yes', array(), 'Admingenerator'),
             );
 
-            $options['empty_value'] = $this->container->get('translator')
+            if (\Symfony\Component\HttpKernel\Kernel::VERSION_ID >= 20600) {
+                $placeholderOptionName = 'placeholder';
+            } else {
+                $placeholderOptionName = 'empty_value';
+            }
+            $options[$placeholderOptionName] = $this->container->get('translator')
                 ->trans('boolean.yes_or_no', array(), 'Admingenerator');
         }
 
