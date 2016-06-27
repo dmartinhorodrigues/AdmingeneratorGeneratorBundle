@@ -9,6 +9,7 @@ class NestedRoutingLoader extends RoutingLoader
         $this->actions['nested_move'] = array(
             'pattern'      => '/nested-move/{dragged}/{action}/{dropped}',
             'defaults'     => array(),
+            'methods'      => array(),
             'requirements' => array(),
             'controller'   => 'list',
         );
