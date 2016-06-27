@@ -150,8 +150,14 @@ class DoctrineORMFieldGuesser extends ContainerAware
                 $precision = $mapping['precision'];
             }
 
+            if (\Symfony\Component\HttpKernel\Kernel::VERSION_ID >= 20700) {
+                $scaleOptionName = 'scale';
+            } else {
+                $scaleOptionName = 'precision';
+            }
+
             return array(
-                'precision' => isset($precision) ? $precision : '',
+                $scaleOptionName => isset($precision) ? $precision : '',
                 'required'  => $this->isRequired($columnName)
             );
         }
