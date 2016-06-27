@@ -25,7 +25,14 @@ class CsrfTokenExtension extends \Twig_Extension
 
     public function getCsrfToken($intention)
     {
-        $token = $this->container->get('form.csrf_provider')->generateCsrfToken($intention);
+        if ($this->container->has('security.csrf.token_manager')) {
+            $token = $this->container->get('security.csrf.token_manager')->getToken($intention)->getValue();
+        } else {
+            // BC for SF < 2.4
+            $token = $this->container->has('form.csrf_provider')
+            ? $this->container->get('form.csrf_provider')->generateCsrfToken($intention)
+            : null;
+        }
 
         return $token;
     }
