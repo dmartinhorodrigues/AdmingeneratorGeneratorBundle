@@ -8,12 +8,12 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 class AdmingeneratorMenuBuilder extends ContainerAware
 {
     protected $dividers = array();
-    
+
     protected $translation_domain = 'Admin';
 
     /**
      * Creates header element and adds it to menu
-     * 
+     *
      * @param \Knp\Menu\ItemInterface $menu
      * @param string $label Header label
      * @return ItemInterface Header element
@@ -29,7 +29,7 @@ class AdmingeneratorMenuBuilder extends ContainerAware
 
     /**
      * Creates link to uri element and adds it to menu
-     * 
+     *
      * @param \Knp\Menu\ItemInterface $menu
      * @param string $label Link label
      * @param string $route Link uri
@@ -39,8 +39,12 @@ class AdmingeneratorMenuBuilder extends ContainerAware
     {
         $item = $menu->addChild($label, array('uri' => $uri));
         $item->setExtra('translation_domain', $this->translation_domain);
+        $request = $this->container->has('request_stack')
+            ? $this->container->get('request_stack')->getCurrentRequest()
+            : $this->container->get('request');
 
-        if ($item->getUri() == $this->container->get('request')->getRequestUri()) {
+
+        if ($item->getUri() == $request->getRequestUri()) {
             $item->setAttribute('class', 'active');
         }
 
@@ -49,7 +53,7 @@ class AdmingeneratorMenuBuilder extends ContainerAware
 
     /**
      * Creates link to route element and adds it to menu
-     * 
+     *
      * @param \Knp\Menu\ItemInterface $menu
      * @param string $label Link label
      * @param string $route Link route
@@ -60,8 +64,11 @@ class AdmingeneratorMenuBuilder extends ContainerAware
     {
         $item = $menu->addChild($label, array('route' => $route, 'routeParameters' => $routeParameters));
         $item->setExtra('translation_domain', $this->translation_domain);
+        $request = $this->container->has('request_stack')
+            ? $this->container->get('request_stack')->getCurrentRequest()
+            : $this->container->get('request');
 
-        if ($item->getUri() == $this->container->get('request')->getRequestUri()) {
+        if ($item->getUri() == $request->getRequestUri()) {
             $item->setAttribute('class', 'active');
         }
 
@@ -70,7 +77,7 @@ class AdmingeneratorMenuBuilder extends ContainerAware
 
     /**
      * Creates dropdown menu element and adds it to menu
-     * 
+     *
      * @param \Knp\Menu\ItemInterface $menu
      * @param string $label Dropdown label
      * @param bool $caret Wheather or not append caret
@@ -89,7 +96,7 @@ class AdmingeneratorMenuBuilder extends ContainerAware
 
     /**
      * Creates divider element and adds it to menu
-     * 
+     *
      * @param \Knp\Menu\ItemInterface $menu
      * @return ItemInterface Divider element
      */

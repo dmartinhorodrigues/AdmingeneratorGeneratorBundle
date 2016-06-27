@@ -3,7 +3,7 @@
 {% endblock %}
 {% block create %}
 
-    public function createAction()
+    public function createAction(\Symfony\Component\HttpFoundation\Request $request)
     {
         {{ block('security_action') }}
 
@@ -11,7 +11,7 @@
 
         $this->preBindRequest(${{ builder.ModelClass }});
         $form = $this->createForm($this->getNewType(), ${{ builder.ModelClass }}, $this->getFormOptions(${{ builder.ModelClass }}));
-        $form->bind($this->get('request'));
+        $form->bind($request);
 
         if ($form->isValid()) {
             try {
@@ -21,9 +21,9 @@
 
                 $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans("{{ messages.success|default("action.object.edit.success") }}", array(), 'Admingenerator') );
 
-                if($this->get('request')->request->has('save-and-add'))
+                if($request->request->has('save-and-add'))
                   return new RedirectResponse($this->generateUrl("{{ builder.routePrefixWithSubfolder }}_{{ bundle_name }}{{ builder.BaseGeneratorName ? "_" ~ builder.BaseGeneratorName : "" }}_new" ));
-                if($this->get('request')->request->has('save-and-list'))
+                if($request->request->has('save-and-list'))
                   return new RedirectResponse($this->generateUrl("{{ builder.routePrefixWithSubfolder }}_{{ bundle_name }}{{ builder.BaseGeneratorName ? "_" ~ builder.BaseGeneratorName : "" }}_list" ));
                 else
                   return new RedirectResponse($this->generateUrl("{{ builder.routePrefixWithSubfolder }}_{{ bundle_name }}{{ builder.BaseGeneratorName ? "_" ~ builder.BaseGeneratorName : "" }}_edit", array('pk' => ${{ builder.ModelClass }}->get{{ builder.getFieldGuesser().getModelPrimaryKeyName(model)|classify }}()) ));

@@ -34,10 +34,10 @@ class ActionsController extends BaseController
     /**
      * Call custom batch action based on $action parameter
      */
-    public function batchAction()
+    public function batchAction(\Symfony\Component\HttpFoundation\Request $request)
     {
-        $action = $this->get('request')->get('action');
-        $selected = $this->get('request')->get('selected');
+        $action = $request->get('action');
+        $selected = $request->get('selected');
 
         if (!$selected || !$action) {
             $this->get('session')->getFlashBag()->add(

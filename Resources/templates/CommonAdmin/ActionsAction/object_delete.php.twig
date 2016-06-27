@@ -18,8 +18,9 @@
 
         try {
             {{ block('security_action_with_object') -}}
+            $request = $this->has('request_stack') ? $this->get('request_stack')->getCurrentRequest() : $this->get('request');
 
-            if ('POST' == $this->get('request')->getMethod()) {
+            if ('POST' == $request->getMethod()) {
                 {{ block('csrf_action_check_token') }}
 
                 $this->executeObjectDelete(${{ builder.ModelClass }});

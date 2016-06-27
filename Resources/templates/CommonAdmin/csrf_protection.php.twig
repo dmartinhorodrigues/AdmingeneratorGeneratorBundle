@@ -11,7 +11,8 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
      */
     protected function isCsrfTokenValid($intention)
     {
-        $token = $this->getRequest()->request->get('_csrf_token');
+        $request = $this->has('request_stack') ? $this->get('request_stack')->getCurrentRequest() : $this->get('request');
+        $token = $request->request->get('_csrf_token');
         if (!$this->get('form.csrf_provider')->isCsrfTokenValid($intention, $token)) {
             throw new InvalidCsrfTokenException();
         }
@@ -21,7 +22,7 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 {% block csrf_action_check_token %}
 // Check CSRF token for action
-$intention = $this->getRequest()->getRequestUri();
+$intention = $request->getRequestUri();
 $this->isCsrfTokenValid($intention);
 {% endblock %}
 

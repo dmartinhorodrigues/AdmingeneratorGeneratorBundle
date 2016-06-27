@@ -1,23 +1,23 @@
 {% block filters %}
-    public function filtersAction()
+    public function filtersAction(\Symfony\Component\HttpFoundation\Request $request)
     {
-        if ($this->get('request')->get('reset')) {
+        if ($request->get('reset')) {
             $this->setFilters(array());
 
             return new RedirectResponse($this->generateUrl("{{ builder.routePrefixWithSubfolder }}_{{ bundle_name }}{{ builder.BaseGeneratorName ? "_" ~ builder.BaseGeneratorName : "" }}_list"));
         }
 
-        if ($this->getRequest()->getMethod() == "POST") {
+        if ($request->getMethod() == "POST") {
             $form = $this->getFilterForm();
-            $form->bind($this->get('request'));
+            $form->bind($request);
 
             if ($form->isValid()) {
                 $filters = $form->getViewData();
             }
         }
 
-        if ($this->getRequest()->getMethod() == "GET") {
-            $filters = $this->getRequest()->query->all();
+        if ($request->getMethod() == "GET") {
+            $filters = $request->query->all();
         }
 
         if (isset($filters)) {
