@@ -13,9 +13,9 @@ use JMS\SecurityExtraBundle\Security\Authorization\Expression\Expression;
      */
     protected function checkCredentials($credentials, \{{ model }} ${{ builder.ModelClass }} = null)
     {
-        $securityContext = $this->get('security.context');
+        $authorizationChecker = $this->has('security.authorization_checker') ? $this->get('security.authorization_checker') : $this->get('security.context');
 
-        if (false === $securityContext->isGranted(array(new Expression($credentials)), ${{ builder.ModelClass }})) {
+        if (false === $authorizationChecker->isGranted(array(new Expression($credentials)), ${{ builder.ModelClass }})) {
             throw new AccessDeniedException();
         }
     }

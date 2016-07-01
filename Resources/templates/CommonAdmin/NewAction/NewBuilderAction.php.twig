@@ -47,11 +47,11 @@ class NewController extends BaseController
     protected function getNewType()
     {
         $type = new NewType();
-        $type->setSecurityContext($this->get('security.context'));
+        $type->setAuthorizationChecker($this->has('security.authorization_checker') ? $this->get('security.authorization_checker') : $this->get('security.context'));
 
         return $type;
     }
-    
+
     protected function getNewObject()
     {
         return new \{{ model }};

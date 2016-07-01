@@ -9,13 +9,13 @@ use JMS\SecurityExtraBundle\Security\Authorization\Expression\Expression;
 
 class {{ builder.YamlKey|ucfirst }}Type extends AbstractType
 {
-    protected $securityContext;
+    protected $authorizationChecker;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
     {% for column in builder.columns %}
     {%- if column.credentials -%}
-        if (false !== $this->securityContext->isGranted(array(new Expression('{{ column.credentials }}')), $builder->getData())) {
+        if (false !== $this->authorizationChecker->isGranted(array(new Expression('{{ column.credentials }}')), $builder->getData())) {
     {%- endif %}
 
         $formOptions = $this->getFormOption('{{ column.name }}', {{ column.formOptions|merge({
@@ -41,9 +41,9 @@ class {{ builder.YamlKey|ucfirst }}Type extends AbstractType
         return '{{ builder.YamlKey }}_{{ builder.ModelClass|lower }}';
     }
 
-    public function setSecurityContext($securityContext)
+    public function setAuthorizationChecker($authorizationChecker)
     {
-        $this->securityContext = $securityContext;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
 }

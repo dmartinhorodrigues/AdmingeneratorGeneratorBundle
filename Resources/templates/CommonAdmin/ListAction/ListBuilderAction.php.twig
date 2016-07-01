@@ -104,7 +104,7 @@ class ListController extends BaseController
     protected function getFiltersType()
     {
         $type = new FiltersType();
-        $type->setSecurityContext($this->get('security.context'));
+        $type->setAuthorizationChecker($this->has('security.authorization_checker') ? $this->get('security.authorization_checker') : $this->get('security.context'));
 
         return $type;
     }
