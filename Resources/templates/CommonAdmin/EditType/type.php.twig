@@ -36,6 +36,17 @@ class {{ builder.YamlKey|ucfirst }}Type extends AbstractType
         return $formOptions;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return $this->getName();
+    }
+
+    /**
+     * BC for Symfony < 3.0.
+     */
     public function getName()
     {
         return '{{ builder.YamlKey }}_{{ builder.ModelClass|lower }}';
