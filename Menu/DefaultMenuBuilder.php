@@ -12,7 +12,7 @@ class DefaultMenuBuilder extends AdmingeneratorMenuBuilder
     public function navbarMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
-        $menu->setChildrenAttributes(array('id' => 'main_navigation', 'class' => 'nav'));
+        $menu->setChildrenAttributes(array('id' => 'main_navigation', 'class' => 'nav navbar-nav'));
         
         $overwrite = $this->addDropdown($menu, 'Replace this menu');
         
@@ -21,14 +21,14 @@ class DefaultMenuBuilder extends AdmingeneratorMenuBuilder
             'Create new menu builder',
             'https://github.com/symfony2admingenerator/AdmingeneratorGeneratorBundle'
             .'/blob/master/Resources/doc/cookbook/menu.md'
-        )->setExtra('icon', 'icon-wrench');
+        )->setExtra('icon', 'glyphicon glyphicon-wrench');
         
         $this->addLinkURI(
             $overwrite,
             'Customize menu block',
             'https://github.com/symfony2admingenerator/AdmingeneratorGeneratorBundle'.
             '/blob/master/Resources/views/base_admin_navbar.html.twig'
-        )->setExtra('icon', 'icon-fork');
+        )->setExtra('icon', 'glyphicon glyphicon-fork');
         
         return $menu;
     }
