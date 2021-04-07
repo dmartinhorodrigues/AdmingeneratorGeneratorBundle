@@ -3,7 +3,7 @@
 namespace Admingenerator\GeneratorBundle\Guesser;
 
 use Admingenerator\GeneratorBundle\Exception\NotImplementedException;
-use Countable;
+
 use Doctrine\Common\Util\Inflector;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
@@ -259,7 +259,7 @@ class PropelORMFieldGuesser extends ContainerAware
     {
         $pks = $this->getMetadatas($class)->getPrimaryKeyColumns();
 
-        if ($pks instanceof Countable && count($pks) == 1) {
+        if (count($pks) == 1) {
             return $pks[0]->getPhpName();
         }
 

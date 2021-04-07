@@ -1,6 +1,6 @@
 {% block tabs %}
 {{ echo_block("form_tabs") }}
-{% if tabs is defined and tabs|length > 0 %}
+{% if tabs is defined and tabs|default([])|length > 0 %}
     <ul class="form_tabs nav nav-tabs">
         {% for name, tab in tabs %}
             <li>
@@ -23,7 +23,7 @@
                             $(this).find('a:first').append('<span class="badge badge-important">'+invalid_items.length+'</span>');
                         }
                     });
-                });          
+                });
             });
         })(this, jQuery);
     </script>

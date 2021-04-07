@@ -2,8 +2,6 @@
 
 namespace Admingenerator\GeneratorBundle\Twig\Extension;
 
-use Countable;
-
 /**
  * @author Cedric LOMBARDOT
  * @author Piotr Gołębiewski <loostro@gmail.com>
@@ -87,7 +85,7 @@ class EchoExtension extends \Twig_Extension
         // Converts 'type' => '\My\Fully\QualifiedType' into 'type' => new \My\Fully\QualifiedType()
         // (mainly used in collections
         preg_match("/'type' => '(.+?)'/i", $options, $matches);
-        if ($matches instanceof Countable && count($matches) > 0) {
+        if (count($matches) > 0) {
             $pattern_formtype = '/^\\\\+(([a-zA-Z_]\w*\\\\+)*)([a-zA-Z_]\w*Type)$/';
             // Sanity check: prepend with "new" and append with "()"
             // only if type option is a Fully qualified name
@@ -101,7 +99,7 @@ class EchoExtension extends \Twig_Extension
             preg_match("#^document#i", $formType) || preg_match("#document$#i", $formType)) {
             preg_match("/'query_builder' => '(.+?)',/i", $options, $matches);
 
-            if ($matches instanceof Countable && count($matches) > 0) {
+            if (count($matches) > 0) {
                 $options = str_replace("'query_builder' => '".$matches[1]."'", '\'query_builder\' => '.stripslashes($matches[1]), $options);
             }
         }
@@ -109,7 +107,7 @@ class EchoExtension extends \Twig_Extension
         if (preg_match("#^model#i", $formType) || preg_match("#model$#i", $formType)) {
             preg_match("/'query' => '(.+?)',/i", $options, $matches);
 
-            if ($matches instanceof Countable && count($matches) > 0) {
+            if (count($matches) > 0) {
                 $options = str_replace("'query' => '".$matches[1]."'", '\'query\' => '.stripslashes($matches[1]), $options);
             }
         }
@@ -118,7 +116,7 @@ class EchoExtension extends \Twig_Extension
         if ('choice' == $formType || 'double_list' == $formType) {
             preg_match("/'choices' => '(.+?)',/i", $options, $matches);
 
-            if ($matches instanceof Countable && count($matches) > 0) {
+            if (count($matches) > 0) {
                 $options = str_replace("'choices' => '".$matches[1]."'", '\'choices\' => '.stripslashes($matches[1]), $options);
             }
         }
@@ -126,7 +124,7 @@ class EchoExtension extends \Twig_Extension
         if (preg_match('#^(.+)Type$#i', $formType) || 'form_widget'== $formType) { // For type wich are not strings
             preg_match("/\'(.*)Type\'/", $options, $matches);
 
-            if ($matches instanceof Countable && count($matches) > 0) {
+            if (count($matches) > 0) {
                 return 'new '.stripslashes($matches[1]).'Type()';
             }
         }

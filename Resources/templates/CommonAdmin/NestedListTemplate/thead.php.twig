@@ -2,7 +2,7 @@
 {{ echo_block("list_thead") }}
 <thead>
     <tr class="list_thead">
-        {% if batch_actions is defined and batch_actions|length > 0 %}
+        {% if batch_actions is defined and batch_actions|default([])|length > 0 %}
             <th class="list_thead_batch_action">
                 <input type="checkbox" name="batchAll" />
             </th>
@@ -19,7 +19,7 @@
         {% endif %}
         {% endfor -%}
 
-        {%- if object_actions|length > 0 -%}
+        {%- if object_actions|default([])|length > 0 -%}
             <th class="actions">{{ echo_trans('list.header.actions') }}</th>
         {% endif -%}
     </tr>

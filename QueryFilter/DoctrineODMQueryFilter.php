@@ -2,15 +2,13 @@
 
 namespace Admingenerator\GeneratorBundle\QueryFilter;
 
-use Countable;
-
 class DoctrineODMQueryFilter extends BaseQueryFilter
 {
     public function addDefaultFilter($field, $value)
     {
         if (!is_array($value)) {
             $this->query->field($field)->equals($value);
-        } elseif ($value instanceof Countable && count($value) > 0) {
+        } elseif (count($value) > 0) {
             $this->query->field($field)->in($value);
         }
     }

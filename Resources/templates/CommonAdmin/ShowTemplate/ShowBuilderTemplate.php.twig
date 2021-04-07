@@ -30,18 +30,18 @@
 	    </div>
 
 	    <div class="row">
-	        {% if sidebar is defined and sidebar|length > 0 %}
+	        {% if sidebar is defined and sidebar|default([])|length > 0 %}
 	            <div class="col-md-8">
 	        {% endif %}
 	                {{- block('tabs') }}
-	                {% if tabs is defined and tabs|length > 0 %}
+	                {% if tabs is defined and tabs|default([])|length > 0 %}
 	                <div class="tab-content">
 	                {% endif %}
 	                {{- block('show') -}}
-	                {% if tabs is defined and tabs|length > 0 %}
+	                {% if tabs is defined and tabs|default([])|length > 0 %}
 	                </div>
 	                {% endif %}
-	        {% if sidebar is defined and sidebar|length > 0 %}
+	        {% if sidebar is defined and sidebar|default([])|length > 0 %}
 	            </div>
 	            <div class="col-md-4">
 	                {{- block('show_sidebar') -}}

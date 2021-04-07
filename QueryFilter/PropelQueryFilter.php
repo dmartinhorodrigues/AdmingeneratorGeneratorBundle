@@ -2,7 +2,6 @@
 
 namespace Admingenerator\GeneratorBundle\QueryFilter;
 
-use Countable;
 use  Doctrine\Common\Util\Inflector;
 
 class PropelQueryFilter extends BaseQueryFilter
@@ -12,7 +11,7 @@ class PropelQueryFilter extends BaseQueryFilter
         if (!is_array($value)) {
             $method = 'filterBy'.Inflector::classify($field);
             $this->query->$method($value);
-        } elseif ($value instanceof Countable && count($value) > 0) {
+        } elseif (count($value) > 0) {
             $this->query->filterBy($field, $value, \Criteria::IN);
         }
     }
@@ -61,7 +60,7 @@ class PropelQueryFilter extends BaseQueryFilter
                 $filters['max'] = $to;
             }
 
-            if ($filters instanceof Countable && count($filters) > 0) {
+            if (count($filters) > 0) {
                 $method = 'filterBy'.Inflector::classify($field);
                 $this->query->$method($filters);
             }
