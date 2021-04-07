@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Admingenerator\GeneratorBundle\Builder\BaseBuilder as GenericBaseBuilder;
 use Admingenerator\GeneratorBundle\Generator\Column;
 use Admingenerator\GeneratorBundle\Generator\Action;
+use Countable;
 
 /**
  * Base builder generating php for actions
@@ -34,7 +35,7 @@ class BaseBuilder extends GenericBaseBuilder
      */
     public function getColumns()
     {
-        if (0 === count($this->columns)) {
+        if ($this->columns instanceof Countable && 0 === count($this->columns)) {
             $this->findColumns();
         }
 
@@ -65,7 +66,6 @@ class BaseBuilder extends GenericBaseBuilder
             $column->setSortType($this->getFieldGuesser()->getSortType($column->getDbType()));
 
             if ($this->getYamlKey() != 'list' && $this->getYamlKey() != 'nested_list' && $this->getYamlKey() != 'show' && $this->getYamlKey() != 'excel') {
-
                 $column->setFormType(
                     $this->getFieldOption(
                         $column,
@@ -245,7 +245,7 @@ class BaseBuilder extends GenericBaseBuilder
      */
     public function getActions()
     {
-        if (0 === count($this->actions)) {
+        if ($this->actions instanceof Countable && 0 === count($this->actions)) {
             $this->findActions();
         }
 
@@ -310,7 +310,7 @@ class BaseBuilder extends GenericBaseBuilder
      */
     public function getObjectActions()
     {
-        if (0 === count($this->objectActions)) {
+        if ($this->objectActions instanceof Countable && 0 === count($this->objectActions)) {
             $this->findObjectActions();
         }
 
@@ -325,7 +325,8 @@ class BaseBuilder extends GenericBaseBuilder
             : array();
 
         $globalOptions = $this->getGenerator()->getFromYaml(
-                'params.object_actions.'.$action->getName(), array()
+            'params.object_actions.'.$action->getName(),
+            array()
         );
 
         if (null !== $builderOptions) {
@@ -350,7 +351,7 @@ class BaseBuilder extends GenericBaseBuilder
 
         foreach ($objectActions as $actionName => $actionParams) {
             $action = $this->findObjectAction($actionName);
-            if(!$action) {
+            if (!$action) {
                 $action = new Action($actionName);
             }
 
@@ -426,8 +427,11 @@ class BaseBuilder extends GenericBaseBuilder
 
     public function getRoutePrefixWithSubfolder()
     {
-        return str_replace('\\', '_',
-              ($this->getVariable('namespace_prefix') . (($this->hasVariable('subfolder')) ? '_' . $this->getVariable('subfolder') : '')));
+        return str_replace(
+            '\\',
+            '_',
+            ($this->getVariable('namespace_prefix') . (($this->hasVariable('subfolder')) ? '_' . $this->getVariable('subfolder') : ''))
+        );
     }
 
     public function getNamespacePrefixForTemplate()
@@ -493,12 +497,14 @@ class BaseBuilder extends GenericBaseBuilder
         // From config.yml
         $stylesheets = $parse_stylesheets(
             $this->getGenerator()->getContainer()
-                 ->getParameter('admingenerator.stylesheets', array()), array()
+                 ->getParameter('admingenerator.stylesheets', array()),
+            array()
         );
 
         // From generator.yml
         $stylesheets = $parse_stylesheets(
-            $this->getVariable('stylesheets', array()), $stylesheets
+            $this->getVariable('stylesheets', array()),
+            $stylesheets
         );
 
         return $stylesheets;
@@ -521,7 +527,6 @@ class BaseBuilder extends GenericBaseBuilder
         $self = $this;
         $parse_javascripts = function ($params, $javascripts) use ($self) {
             foreach ($params as $js) {
-
                 if (is_string($js)) {
                     $js = array(
                         'path'  => $js,
@@ -544,12 +549,14 @@ class BaseBuilder extends GenericBaseBuilder
         // From config.yml
         $javascripts = $parse_javascripts(
             $this->getGenerator()->getContainer()
-                 ->getParameter('admingenerator.javascripts', array()), array()
+                 ->getParameter('admingenerator.javascripts', array()),
+            array()
         );
 
         // From generator.yml
         $javascripts = $parse_javascripts(
-            $this->getVariable('javascripts', array()), $javascripts
+            $this->getVariable('javascripts', array()),
+            $javascripts
         );
 
         return $javascripts;

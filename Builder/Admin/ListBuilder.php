@@ -4,6 +4,7 @@ namespace Admingenerator\GeneratorBundle\Builder\Admin;
 
 use Admingenerator\GeneratorBundle\Generator\Column;
 use Admingenerator\GeneratorBundle\Generator\Action;
+use Countable;
 
 /**
  * This builder generates php for list actions
@@ -40,7 +41,7 @@ class ListBuilder extends BaseBuilder
      */
     public function getFilterColumns()
     {
-        if (0 === count($this->filter_columns)) {
+        if ($this->filter_columns instanceof Countable && 0 === count($this->filter_columns)) {
             $this->findFilterColumns();
         }
 
@@ -102,7 +103,6 @@ class ListBuilder extends BaseBuilder
             $this->setUserColumnConfiguration($column);
             $this->addFilterColumn($column);
         }
-
     }
 
     /**
@@ -111,7 +111,7 @@ class ListBuilder extends BaseBuilder
      */
     public function getBatchActions()
     {
-        if (0 === count($this->batch_actions)) {
+        if ($this->batch_actions instanceof Countable && 0 === count($this->batch_actions)) {
             $this->findBatchActions();
         }
 

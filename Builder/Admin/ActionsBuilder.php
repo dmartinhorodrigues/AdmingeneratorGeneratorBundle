@@ -3,6 +3,7 @@
 namespace Admingenerator\GeneratorBundle\Builder\Admin;
 
 use Admingenerator\GeneratorBundle\Generator\Action;
+use Countable;
 
 /**
  * This builder generates php for custom actions
@@ -51,7 +52,7 @@ class ActionsBuilder extends BaseBuilder
      */
     public function getBatchActions()
     {
-        if (0 === count($this->batch_actions)) {
+        if ($this->batch_actions instanceof Countable && 0 === count($this->batch_actions)) {
             $this->findBatchActions();
         }
 
@@ -66,7 +67,8 @@ class ActionsBuilder extends BaseBuilder
             : array();
 
         $globalOptions = $this->getGenerator()->getFromYaml(
-            'params.batch_actions.'.$action->getName(), array()
+            'params.batch_actions.'.$action->getName(),
+            array()
         );
 
         if (null !== $builderOptions) {
@@ -91,7 +93,7 @@ class ActionsBuilder extends BaseBuilder
 
         foreach ($batchActions as $actionName => $actionParams) {
             $action = $this->findBatchAction($actionName);
-            if(!$action) {
+            if (!$action) {
                 $action = new Action($actionName);
             }
 
