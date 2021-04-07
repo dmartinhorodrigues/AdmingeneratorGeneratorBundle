@@ -4,11 +4,11 @@
         {% if "NONE" != fieldset[:4] %}
         <legend><span>{{ echo_trans(fieldset,{}, i18n_catalog|default("Admin") ) }}</span></legend>
         {% endif %}
-			
+
         {% for rows in builder.fieldsets[fieldset] %}
             <div class="row">
             {% for field in rows %}
-                {% if builder.Columns[field].credentials %}
+                {% if builder.Columns[field].credentials and builder.Columns[field].credentials is not null %}
                       {{ echo_if_granted(builder.Columns[field].credentials, builder.ModelClass) }}
                 {% endif %}
                 <div class="col-md-4 form_field field_{{ builder.Columns[field].formType }} field_{{ field }}">
